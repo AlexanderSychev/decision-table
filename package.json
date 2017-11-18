@@ -1,0 +1,12 @@
+{
+  "name": "decision-table",
+  "version": "0.1.0",
+  "main": "dist/DecisionTable.js",
+  "license": "BSD-3-Clause",
+  "scripts": {
+    "dev:prepare": "npm i typescript@2.4.2 webpack@2.2.1",
+    "dev:build": "tsc && webpack",
+    "dev:clean": "rm -rf lib/* && rm -rf dist/*",
+    "dev:test": "node tests/node-test.js"
+  }
+}

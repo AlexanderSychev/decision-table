@@ -1,4 +1,4 @@
-# decision-table
+# decision_table
 
 Simple implementation of Decision Tables (https://en.wikipedia.org/wiki/Decision_table).
 
@@ -8,9 +8,9 @@ For Node.JS or bundlers (Wepback, Browserify):
 
 ```bash
 # By NPM
-npm i decision-table --save
+npm i decision_table --save
 # By Yarn
-yarn add decision-table --save
+yarn add decision_table --save
 ```
 
 For browser (compressed library at file `lib/decision-table.js`):

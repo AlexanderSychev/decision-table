@@ -1,5 +1,5 @@
 {
-  "name": "decision-table",
+  "name": "decision_table",
   "version": "0.1.5",
   "main": "dist/DecisionTable.js",
   "license": "BSD-3-Clause",

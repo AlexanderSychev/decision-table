@@ -1,4 +1,6 @@
 window.addEventListener('load', function() {
+    var startedAt = Date.now();
+
     var table = new window.dt.DecisionTable();
     var A, B;
 
@@ -71,4 +73,8 @@ window.addEventListener('load', function() {
     A = false;
     B = false;
     table.run();
+
+    var endedAt = Date.now();
+
+    console.log('Executed in ' + (endedAt - startedAt) + 'ms');
 });

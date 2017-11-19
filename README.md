@@ -16,7 +16,10 @@ yarn add decision_table --save
 For browser (compressed library at file `lib/decision-table.js`):
 
 ```html
-<script src="path/to/decision-table.js"></script>
+<!-- Development environment version -->
+<script src="path/to/decision-table.dev.js"></script>
+<!-- Production environment version -->
+<script src="path/to/decision-table.prod.js"></script>
 ```
 
 ## Usage
@@ -36,6 +39,16 @@ In browsers you can get it from global variable:
 ```javascript
 window.dt.DecisionTable;
 ```
+
+### Environment
+
+Library uses standard Node.JS environment variable (`NODE_ENV`).
+In development mode (`NODE_ENV !== 'production'`) library runs some
+tests for each adding action and condition.
+
+Browser versions of library has defined environment:
+* `lib/decision-table.dev.js` - development environment (all test running always, not compressed);
+* `lib/decision-table.prod.js` - development environment (all test running always, compressed);
 
 ### API
 
@@ -60,6 +73,18 @@ console.log(window.dt); // Must be a previous value now
 ```
 
 In Node.JS this method just returns Decision Table constructor.
+
+#### DecisionTable.testAction(action)
+
+Special static method which provides simple testing
+for your actions. In "development" environment this method
+will be run for each adding action.
+
+#### DecisionTable.testCondition(name, func)
+
+Special static method which provides simple testing
+for your conditions. In development environment this method
+will be run for each adding condition.
 
 #### DecisionTable.prototype.addCondition(name, func)
 
@@ -244,3 +269,8 @@ A = false;
 B = false;
 table.run();
 ```
+
+## Roadmap
+
+* Version *0.5.0* - optional conditions ("OR" logic);
+* Version *0.9.0* - asynchronous conditions;

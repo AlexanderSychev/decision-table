@@ -24,6 +24,101 @@ export interface Action {
     execute: () => any;
 }
 
+if (process.env.NODE_ENV !== 'production') {
+    console.warn(
+        '[decision_table] You are using non-production version of library. ' +
+        'It\'s provides some additional checks which mades library some slower.'
+    );
+}
+
+/** Action testing result */
+interface TestResult {
+    /** Passed tests action flag */
+    passed: boolean;
+    /** Reason of failed test */
+    reasons: string[];
+}
+
+/** Action testing sandbox */
+class ActionTest {
+    /** Run testing */
+    public static run(action: Action): TestResult {
+        let result: TestResult = {
+            passed: true,
+            reasons: []
+        };
+        if (ActionTest.isNotNil_(action.whenTrue) && !ActionTest.isArray_(action.whenTrue)) {
+            result.passed = false;
+            result.reasons.push('Action field "whenTrue" is not array of strings.');
+        }
+        if (ActionTest.isNotNil_(action.whenFalse) && !ActionTest.isArray_(action.whenFalse)) {
+            result.passed = false;
+            result.reasons.push('Action field "whenFalse" is not array of strings.');
+        }
+        if (ActionTest.isNotNil_(action.whenTrue) && !ActionTest.isArrayOfStrings_(action.whenTrue)) {
+            result.passed = false;
+            result.reasons.push('Action field "whenTrue" is not array of strings.');
+        }
+        if (ActionTest.isNotNil_(action.whenFalse) && !ActionTest.isArrayOfStrings_(action.whenFalse)) {
+            result.passed = false;
+            result.reasons.push('Action field "whenFalse" is not array of strings.');
+        }
+        if (!ActionTest.isFunction_(action.execute)) {
+            result.passed = false;
+            result.reasons.push('Action field "execute" is required and must be a function.');
+        }
+        return result;
+    }
+    /** Returns "true" if entity is not "null" or "undefined" */
+    private static isNotNil_(value: any): value is undefined {
+        return (value !== null) && (value !== undefined);
+    }
+    /** Returns "true" if entity is array */
+    private static isArray_(value: any): value is any[] {
+        return (Object.prototype.toString.call(value) === '[object Array]')
+    }
+    /** Returns "true" if entity is a function */
+    private static isFunction_(value: any): value is Function {
+        return (value instanceof Function);
+    }
+    /** Returns "true" if entity is array of strings */
+    private static isArrayOfStrings_(value: any): value is string[] {
+        let result: boolean = ActionTest.isNotNil_(value) && ActionTest.isArray_(value);
+        if (result) {
+            for (let i = 0; i < value.length; i++) {
+                if (typeof value[i] !== 'string') {
+                    result = false;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+}
+
+/** Condition testing sandbox */
+class ConditionTest {
+    /** Run testing */
+    public static run(name: string, func: Condition): TestResult {
+        let result: TestResult = {
+            passed: true,
+            reasons: []
+        };
+
+        if(typeof name !== 'string') {
+            result.passed = false;
+            result.reasons.push('Condition name must be a string');
+        }
+
+        if(!(func instanceof Function)) {
+            result.passed = false;
+            result.reasons.push('Condition must be a function')
+        }
+
+        return result;
+    }
+}
+
 /** Common class of decision table */
 export class DecisionTable {
     /**
@@ -61,8 +156,38 @@ export class DecisionTable {
             return DecisionTable;
         }
     }
+    /**
+     * Special static method which provides simple testing
+     * for your actions. In development environment this method
+     * will be run for each adding action.
+     */
+    public static testAction(action: Action): TestResult {
+        const result: TestResult = ActionTest.run(action);
+        if (!result.passed) {
+            console.error(`[decision_table] Action test failed:\n\t${result.reasons.join('\t\n')}`);
+        }
+        return result;
+    }
+    /**
+     * Special static method which provides simple testing
+     * for your conditions. In development environment this method
+     * will be run for each adding condition.
+     */
+    public static testCondition(name: string, condition: Condition): TestResult {
+        const result: TestResult = ConditionTest.run(name, condition);
+        if (!result.passed) {
+            console.error(`[decision_table] Condition test failed:\n\t${result.reasons.join('\t\n')}`);
+        }
+        return result;
+    }
     /** Add new condition to table (will be override if exists) */
     public addCondition(name: string, func: Condition): void {
+        if (process.env.NODE_ENV !== 'production') {
+            const result: TestResult = DecisionTable.testCondition(name, func);
+            if (!result.passed) {
+                throw new Error(result.reasons.join('\t\n'));
+            }
+        }
         this.conditions_[name] = func;
     }
     /** Remove condition from table */
@@ -74,7 +199,12 @@ export class DecisionTable {
      * which provides action removing and changing
      */
     public addAction(action: Action): void {
-        this.lintAction_(action);
+        if (process.env.NODE_ENV !== 'production') {
+            const result: TestResult = DecisionTable.testAction(action);
+            if (!result.passed) {
+                throw new Error(result.reasons.join('\t\n'));
+            }
+        }
         this.actions_.push(action);
     }
     /** Removes action by it's link */
@@ -91,21 +221,6 @@ export class DecisionTable {
             }
         });
         this.actions_.forEach((action: Action) => this.doAction_(action, conditionsResults));
-    }
-    /** Analise and check action for correct signature */
-    private lintAction_(action: Action): void {
-        const isNotNilAndNotArray = (item: any) => (
-            (item !== null && item !== undefined && !Array.isArray(item))
-        );
-        if (isNotNilAndNotArray(action.whenTrue)) {
-            throw new Error('Action field "whenTrue" must be array of strings!');
-        }
-        if (isNotNilAndNotArray(action.whenFalse)) {
-            throw new Error('Action field "whenFalse" must be array of strings!');
-        }
-        if (!(action.execute instanceof Function)) {
-            throw new Error('Action field "execute" is required and must be a function!');
-        }
     }
     /** Action execition function */
     private doAction_(action: Action, conditionsResults: Dictionary<boolean>): void {

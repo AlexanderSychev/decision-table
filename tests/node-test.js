@@ -1,6 +1,8 @@
 'use strict';
 const DecisionTable = require('../dist/DecisionTable').DecisionTable;
 
+const startedAt = Date.now();
+
 let table = new DecisionTable();
 let A, B;
 
@@ -73,3 +75,7 @@ table.run();
 A = false;
 B = false;
 table.run();
+
+const endedAt = Date.now();
+
+console.log(`Executed in ${endedAt - startedAt}ms`);

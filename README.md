@@ -277,4 +277,4 @@ table.run();
 
 ## For developers
 
-See [DEVELOPMENT.md]
+See https://github.com/AlexanderSychev/decision-table/blob/master/DEVELOPMENT.md

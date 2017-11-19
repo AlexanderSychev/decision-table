@@ -274,3 +274,7 @@ table.run();
 
 * Version *0.5.0* - optional conditions ("OR" logic);
 * Version *0.9.0* - asynchronous conditions;
+
+## For developers
+
+See [DEVELOPMENT.md]

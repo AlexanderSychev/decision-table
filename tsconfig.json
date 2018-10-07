@@ -7,7 +7,6 @@
     "lib": ["es6", "dom"],
     "module": "commonjs",
     "strictNullChecks": true,
-    "importHelpers": true,
     "moduleResolution": "node",
     "noImplicitReturns": true,
     "noImplicitThis": true,

@@ -1,6 +1,6 @@
 # decision_table
 
-Simple implementation of Decision Tables (https://en.wikipedia.org/wiki/Decision_table).
+Simple implementation of [Decision Tables](https://en.wikipedia.org/wiki/Decision_table).
 
 ## Installation
 

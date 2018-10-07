@@ -1,3 +1,11 @@
 src/
+build-tools/
+tsconfig.json
+tsconfig.test.json
+tsconfig.webpack.json
+tslint.json
+.prettierrc.json
+
 !lib/
 !dist/
+!test/

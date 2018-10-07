@@ -3,6 +3,8 @@
 const $rimraf = require('rimraf');
 const $mkdirp = require('mkdirp');
 
+const { DIST, LIB, TEST } = require('./paths');
+
 /**
  * Promisified "rimraf"
  * @param {string} directory
@@ -21,16 +23,8 @@ const mkdirp = (directory) => new Promise(
     (resolve, reject) => $mkdirp(directory, err => err ? reject(err) : resolve())
 );
 
-/**
- * Make clean directories task which removes directory with all contents
- * and recreates it
- * @param {string | string[]} dirs 
- * @return {Function}
- */
-module.exports = (dirs) => {
-    dirs = Array.isArray(dirs) ? dirs : [dirs];
-    return async() => {
-        await Promise.all(dirs.map(dir => rimraf(dir)));
-        await Promise.all(dirs.map(dir => mkdirp(dir)));
-    };
-}
+module.exports = async () => {
+    const dirs = [ DIST, LIB, TEST ];
+    await Promise.all(dirs.map(dir => rimraf(dir)));
+    await Promise.all(dirs.map(dir => mkdirp(dir)));
+};

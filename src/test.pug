@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+html
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Decision Table Test Case
+        link(href="https://unpkg.com/mocha@5.2.0/mocha.css", rel="stylesheet")
+    body
+        div#mocha
+        script(src="https://unpkg.com/chai/chai.js")
+        script(src="https://unpkg.com/mocha@5.2.0/mocha.js")
+        script.
+            mocha.setup('bdd');
+        script(src="../lib/decision-table.development.js")
+        script(src="./test.js")
+        script.
+            mocha.run();

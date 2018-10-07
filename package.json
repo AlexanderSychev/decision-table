@@ -1,8 +1,14 @@
 {
   "name": "decision_table",
-  "version": "0.1.6",
-  "main": "dist/DecisionTable.js",
-  "license": "BSD-3-Clause",
+  "description": "Simple implementation of Decision Tables",
+  "author": {
+    "email": "shurik.shurik.1993@yandex.ru",
+    "name": "Alexander Sychev"
+  },
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/AlexanderSychev/decision-table"
@@ -30,9 +36,10 @@
     "tslint-config-prettier": "1.15.0",
     "typescript": "3.0.3",
     "webpack": "4.19.1"
-
   },
   "scripts": {
-    "build": "yarn gulp"
+    "clean": "gulp clean",
+    "build": "gulp main",
+    "test": "gulp tests"
   }
 }

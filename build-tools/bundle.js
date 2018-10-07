@@ -16,6 +16,7 @@ const makeBundleTask = (
     webpack(
         {
             entry: isTest ? entry : [
+                'es6-promise/auto',
                 'es6-symbol/implement',
                 entry
             ],

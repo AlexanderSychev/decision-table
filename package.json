@@ -39,8 +39,9 @@
     "webpack": "4.19.1"
   },
   "scripts": {
-    "clean": "gulp clean",
-    "build": "gulp main",
-    "test": "gulp tests"
+    "dev:clean": "gulp clean",
+    "dev:build": "gulp main",
+    "dev:test": "gulp tests",
+    "prepublish": "yarn dev:build && yarn dev:test"
   }
 }

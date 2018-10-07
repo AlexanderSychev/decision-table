@@ -1,19 +1,23 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "target": "es5",
-        "noImplicitReturns": true,
-        "noImplicitThis": true,
-        "noImplicitAny": true,
-        "noUnusedLocals": true,
-        "outDir": "dist",
-        "rootDir": "src",
-        "suppressImplicitAnyIndexErrors": true,
-        "strictNullChecks": true,
-        "noImplicitUseStrict": true
-    },
-    "exclude": [
-        "node_modules"
-    ]
+  "compilerOptions": {
+    "declaration": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "lib": ["es6", "dom"],
+    "module": "commonjs",
+    "strictNullChecks": true,
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "target": "ES5"
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

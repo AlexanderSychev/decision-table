@@ -15,7 +15,10 @@ const makeBundleTask = (
 ) => (cb) => {
     webpack(
         {
-            entry,
+            entry: isTest ? entry : [
+                'es6-symbol/implement',
+                entry
+            ],
             mode: environment,
             output: {
                 library: isTest ? undefined : 'dt',
